@@ -1,0 +1,29 @@
+div.carta {
+  font-family: "Hannari";
+  font-size: 12pt;
+  cursor: grab;
+  float: left;
+  background: #eee;
+  border: #061 solid 3px;
+  margin: 1px;
+  width: 72px;
+  height: 80px;
+  writing-mode: vertical-rl;
+  text-align:justify;
+}
+
+div.kami {
+  font-family:'Yu Mincho';
+  font-size: 14pt;
+  height: 20pt;
+  /*cursor: none;*/
+  background: #eee;
+  border: #888 solid;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  user-select: none;
+}

@@ -1,23 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-  <title></title>
-  <!-- 開発バージョン、便利なコンソールの警告が含まれています
-  -->
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <!-- 本番バージョン、サイズと速度のために最適化されています
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-  -->
-
+  <title>百人一首暗記試験</title>
+  <link href="https://fonts.googleapis.com/earlyaccess/hannari.css" rel="stylesheet" />
+  <link href="main.css" rel="stylesheet">
 </head>
 <body>
   <div id="app">
+    <div class="score">問題：{{index - stage_maisu + 1}} ｜ 正解：{{score}}</div>
+    <div class="kami">{{quiz.yomikami}}</div>
+    <div v-for="(card,grid) in stage" class="carta" :id="grid" @click="toru">
+      {{card.hirasimo}}
+    </div>
   </div>
-
-  <script>
-    var app = new Vue({
-      el: '#app',
-    })
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
