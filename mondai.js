@@ -217,3 +217,21 @@ const simo = source => {
   //console.log(source, replaced)
   return replaced
 }
+
+const init = () => {
+  let cards = []
+  for (let i = 0; i < 100; i++) {
+    const hira = bara.hira[i]
+    const yomi = bara.yomi[i]
+    let card = {}
+    card.hira = hira
+    card.yomi = yomi
+    card.hirakami = simo(hira[0]+hira[1]+hira[2])
+    card.hirasimo = simo(hira[3]+hira[4])
+    card.yomikami = yomi[0]+yomi[1]+yomi[2]
+    card.yomisimo = yomi[3]+yomi[4]
+    card.id = i+1
+    cards.push(card)
+  }
+  return cards
+}

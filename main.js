@@ -31,7 +31,7 @@ let app = new Vue({
   data: {
     stage_maisu: 8,//ステージに置けるカード枚数
     stage: [],//ステージ
-      cards: [],//シャッフル済みカード
+    cards: [],//シャッフル済みカード
     index: 0,//カード上位置
     quiz: {},//問題カード
     ans: 0,  //正解のステージ位置
@@ -63,22 +63,6 @@ const deal = () => {
   app.quiz = app.stage[app.ans]
 }
 
-const init = () => {
-  for (let i = 0; i < 100; i++) {
-    const hira = bara.hira[i]
-    const yomi = bara.yomi[i]
-    let card = {}
-    card.hira = hira
-    card.yomi = yomi
-    card.hirakami = simo(hira[0]+hira[1]+hira[2])
-    card.hirasimo = simo(hira[3]+hira[4])
-    card.yomikami = yomi[0]+yomi[1]+yomi[2]
-    card.yomisimo = yomi[3]+yomi[4]
-    card.id = i+1
-    app.cards.push(card)
-  }
-}
-
 const newgame = () => {
   app.index = 0
   app.score = 0
@@ -87,5 +71,5 @@ const newgame = () => {
   deal()
 }
 
-init()
+app.cards = init()
 newgame()
