@@ -1,18 +1,25 @@
+Vue.component('modal', {
+  template: '#modal-template'
+})
+
 let app = new Vue({
   el: "#app",
   methods: {
     toru: (event)=>{
       if (event) {
-        let judge
         if (event.target.id == app.ans) {
-          judge = "正解"
+          app.judge = "正解"
           app.score++
         } else {
-          judge = "不正解"
+          app.judge = "不正解"
         }
+        app.lastans = app.stage[app.ans]
+        app.showModal = true
+        /* move to modal
         alert([judge,
                 app.stage[app.ans].yomikami,
                 app.stage[app.ans].yomisimo].join("\n"))
+        */
         //console.log(app.index, app.stage.length)
         if (app.stage.length == 2) {
           newgame()
@@ -20,7 +27,6 @@ let app = new Vue({
         if (app.index < 100) {
           app.stage[app.ans] = null
         } else {
-          
           newgame()
           //app.stage.splice(app.ans, 1)
         }
@@ -29,6 +35,9 @@ let app = new Vue({
     }
   },
   data: {
+    showModal: false,
+    judge: null,
+    lastans: null,
     stage_maisu: 8,//ステージに置けるカード枚数
     stage: [],//ステージ
     cards: [],//シャッフル済みカード
