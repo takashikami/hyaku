@@ -5,7 +5,7 @@ Vue.component('modal', {
 let app = new Vue({
   el: "#app",
   methods: {
-    toru: (event)=>{
+    toru: (event) => {
       if (event) {
         if (event.target.id == app.ans) {
           app.judge = true
@@ -13,12 +13,11 @@ let app = new Vue({
         } else {
           app.judge = false
         }
-        app.lastans = app.stage[app.ans]
         app.showModal = true
         //console.log(app.index, app.stage.length)
       }
     },
-    closemodal: ()=>{
+    closemodal: () => {
       app.showModal = false
       if (app.stage.length == 2) {
         newgame()
@@ -35,7 +34,6 @@ let app = new Vue({
   data: {
     showModal: false,
     judge: false,
-    lastans: null,
     stage_maisu: 8,//ステージに置けるカード枚数
     stage: [],//ステージ
     cards: [],//シャッフル済みカード
