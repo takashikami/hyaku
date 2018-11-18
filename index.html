@@ -26,8 +26,8 @@
   </script>
 
   <div id="app">
-    <modal v-if="showModal" @close="showModal = false">
-      <h3 slot="header">{{judge?"正解":"不正解"}}</h3>
+    <modal v-if="showModal" @close="closemodal">
+      <h3 slot="header">{{judge ? "正解" : "不正解"}}</h3>
       <div slot="body">
           {{lastans.yomikami}}<br>
           {{lastans.yomisimo}}

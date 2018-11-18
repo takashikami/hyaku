@@ -16,22 +16,25 @@ let app = new Vue({
         app.lastans = app.stage[app.ans]
         app.showModal = true
         //console.log(app.index, app.stage.length)
-        if (app.stage.length == 2) {
-          newgame()
-        }
-        if (app.index < 100) {
-          app.stage[app.ans] = null
-        } else {
-          newgame()
-          //app.stage.splice(app.ans, 1)
-        }
-        deal()
       }
+    },
+    closemodal: ()=>{
+      app.showModal = false
+      if (app.stage.length == 2) {
+        newgame()
+      }
+      if (app.index < 100) {
+        app.stage[app.ans] = null
+      } else {
+        newgame()
+        //app.stage.splice(app.ans, 1)
+      }
+      deal()
     }
   },
   data: {
     showModal: false,
-    judge: null,
+    judge: false,
     lastans: null,
     stage_maisu: 8,//ステージに置けるカード枚数
     stage: [],//ステージ
