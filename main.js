@@ -8,18 +8,13 @@ let app = new Vue({
     toru: (event)=>{
       if (event) {
         if (event.target.id == app.ans) {
-          app.judge = "正解"
+          app.judge = true
           app.score++
         } else {
-          app.judge = "不正解"
+          app.judge = false
         }
         app.lastans = app.stage[app.ans]
         app.showModal = true
-        /* move to modal
-        alert([judge,
-                app.stage[app.ans].yomikami,
-                app.stage[app.ans].yomisimo].join("\n"))
-        */
         //console.log(app.index, app.stage.length)
         if (app.stage.length == 2) {
           newgame()

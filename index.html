@@ -14,12 +14,10 @@
         <div class="modal-wrapper">
           <div class="modal-container" @click="$emit('close')">
             <div class="modal-header">
-              <slot name="header">
-              </slot>
+              <slot name="header"></slot>
             </div>
             <div class="modal-body">
-              <slot name="body">
-              </slot>
+              <slot name="body"></slot>
             </div>
           </div>
         </div>
@@ -29,7 +27,7 @@
 
   <div id="app">
     <modal v-if="showModal" @close="showModal = false">
-      <h3 slot="header">{{judge}}</h3>
+      <h3 slot="header">{{judge?"正解":"不正解"}}</h3>
       <div slot="body">
           {{lastans.yomikami}}<br>
           {{lastans.yomisimo}}
