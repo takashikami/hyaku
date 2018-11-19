@@ -14,7 +14,8 @@ let app = new Vue({
           app.judge = false
         }
         app.showModal = true
-        //console.log(app.index, app.stage.length)
+        app.elapsed = Date.now() - app.started
+        //console.log(app.elapsed)
       }
     },
     closemodal: () => {
@@ -32,6 +33,8 @@ let app = new Vue({
     }
   },
   data: {
+    started: 0, //dealでセットされる
+    elapsed: 0,
     showModal: false,
     judge: false,
     stage_maisu: 8,//ステージに置けるカード枚数
@@ -66,6 +69,7 @@ const deal = () => {
   })
   app.ans = rand(app.stage.length)
   app.quiz = app.stage[app.ans]
+  app.started = Date.now()
 }
 
 const newgame = () => {

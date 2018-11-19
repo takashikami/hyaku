@@ -19,6 +19,9 @@
             <div class="modal-body">
               <slot name="body"></slot>
             </div>
+            <div class="modal-footer">
+              <slot name="footer"></slot>
+            </div>
           </div>
         </div>
       </div>
@@ -29,8 +32,11 @@
     <modal v-if="showModal" @close="closemodal">
       <h3 slot="header">{{judge ? "正解" : "不正解"}}</h3>
       <div slot="body">
-          {{quiz.yomikami}}<br>
-          {{quiz.yomisimo}}
+        {{quiz.yomikami}}<br>
+        {{quiz.yomisimo}}
+      </div>
+      <div slot="footer">
+        {{elapsed}}
       </div>
     </modal>
     <div class="score">問題：{{index - stage_maisu + 1}} ｜ 正解：{{score}}/{{index - stage_maisu}}</div>
