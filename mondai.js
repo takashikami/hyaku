@@ -218,7 +218,7 @@ const simo = source => {
   return replaced
 }
 
-const init = () => {
+const cards = () => {
   let cards = []
   for (let i = 0; i < 100; i++) {
     const hira = bara.hira[i]

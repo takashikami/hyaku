@@ -33,6 +33,7 @@ let app = new Vue({
     }
   },
   data: {
+    shuffled: [],
     started: 0, //dealでセットされる
     elapsed: 0,
     showModal: false,
@@ -40,30 +41,28 @@ let app = new Vue({
     stage_maisu: 8,//ステージに置けるカード枚数
     stage: [],//ステージ
     cards: [],//シャッフル済みカード
-    index: 0,//カード上位置
+    index: 0,//カードの位置
     quiz: {},//問題カード
     ans: 0,  //正解のステージ位置
     score: 0 //正解数
   },
 });
 
-const rand = i => {
-  return Math.floor(Math.random() * i)
-}
+const rand = i => Math.floor(Math.random() * i)
 
 const shuffle = array => {
-    for (var i = 0; i < array.length; i++) {
-    var r = rand(i+1)
+  for (var i = 0; i < array.length; i++) {
+    var r = rand(i)
     var tmp = array[i]
     array[i] = array[r]
     array[r] = tmp
-    }
+  }
 }
 
 const deal = () => {
   app.stage.forEach((v,i,a)=>{
     if (!v) {
-      a[i] = app.cards[app.index]
+      a[i] = app.cards[app.shuffled[app.index]]
       app.index++
     }
   })
@@ -75,10 +74,11 @@ const deal = () => {
 const newgame = () => {
   app.index = 0
   app.score = 0
-  shuffle(app.cards)
+  app.shuffled = [...Array(100)].map((x,i)=>i)
+  shuffle(app.shuffled)
   app.stage = [...Array(app.stage_maisu)]
   deal()
 }
 
-app.cards = init()
+app.cards = cards() //import from mondai.js
 newgame()
