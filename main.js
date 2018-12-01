@@ -1,3 +1,7 @@
+/* -*- mode:javascript -*-
+  hyakunin isshu anki app
+*/
+
 Vue.component('modal', {
   template: '#modal-template'
 })
@@ -15,7 +19,6 @@ let app = new Vue({
         }
         app.showModal = true
         app.elapsed = Date.now() - app.started
-        //console.log(app.elapsed)
       }
     },
     closemodal: () => {
@@ -27,7 +30,6 @@ let app = new Vue({
         app.stage[app.ans] = null
       } else {
         newgame()
-        //app.stage.splice(app.ans, 1)
       }
       deal()
     }
@@ -69,16 +71,34 @@ const deal = () => {
   app.ans = rand(app.stage.length)
   app.quiz = app.stage[app.ans]
   app.started = Date.now()
+
+  localStorage.setItem("index", JSON.stringify(app.index))
+  localStorage.setItem("score", JSON.stringify(app.score))
+  localStorage.setItem("stage", JSON.stringify(app.stage))
+  localStorage.setItem("ans", JSON.stringify(app.ans))
 }
 
 const newgame = () => {
-  app.index = 0
-  app.score = 0
-  app.shuffled = [...Array(100)].map((x,i)=>i)
-  shuffle(app.shuffled)
-  app.stage = [...Array(app.stage_maisu)]
-  deal()
+  app.cards = cards() //import from mondai.js
+
+  app.shuffled = JSON.parse(localStorage.getItem("shuffled"))
+  if (app.shuffled) {
+    app.index = JSON.parse(localStorage.getItem("index"))
+    app.score = JSON.parse(localStorage.getItem("score"))
+    app.stage = JSON.parse(localStorage.getItem("stage"))
+    app.ans = JSON.parse(localStorage.getItem("ans"))
+    app.quiz = app.stage[app.ans]
+    app.started = Date.now()
+  } else {
+    app.shuffled = [...Array(100)].map((x,i)=>i)
+    shuffle(app.shuffled)
+    localStorage.setItem("shuffled", JSON.stringify(app.shuffled))
+
+    app.stage = [...Array(app.stage_maisu)]
+    app.index = 0 //問題の位置
+    app.score = 0 //正解数
+    deal()
+  }
 }
 
-app.cards = cards() //import from mondai.js
 newgame()
