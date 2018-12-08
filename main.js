@@ -17,8 +17,13 @@ let app = new Vue({
         } else {
           app.judge = false
         }
+        let r = new Object()
+        r.id = app.quiz.id
+        r.elapsed = Date.now() - app.started
+        r.judge = (event.target.id == app.ans)
+        app.record.push(r)
+
         app.showModal = true
-        app.elapsed = Date.now() - app.started
       }
     },
     closemodal: () => {
@@ -35,7 +40,8 @@ let app = new Vue({
     }
   },
   data: {
-    shuffled: [],
+    record: [],
+    mondaiset: [],
     started: 0, //dealでセットされる
     elapsed: 0,
     showModal: false,
@@ -64,7 +70,7 @@ const shuffle = array => {
 const deal = () => {
   app.stage.forEach((v,i,a)=>{
     if (!v) {
-      a[i] = app.cards[app.shuffled[app.index]]
+      a[i] = app.cards[app.mondaiset[app.index]]
       app.index++
     }
   })
@@ -76,23 +82,27 @@ const deal = () => {
   localStorage.setItem("score", JSON.stringify(app.score))
   localStorage.setItem("stage", JSON.stringify(app.stage))
   localStorage.setItem("ans", JSON.stringify(app.ans))
+  localStorage.setItem("record", JSON.stringify(app.record))
 }
 
 const newgame = () => {
   app.cards = cards() //import from mondai.js
 
-  app.shuffled = JSON.parse(localStorage.getItem("shuffled"))
-  if (app.shuffled) {
+  app.mondaiset = JSON.parse(localStorage.getItem("mondaiset"))
+  if (app.mondaiset) {
     app.index = JSON.parse(localStorage.getItem("index"))
     app.score = JSON.parse(localStorage.getItem("score"))
     app.stage = JSON.parse(localStorage.getItem("stage"))
     app.ans = JSON.parse(localStorage.getItem("ans"))
+    app.record = JSON.parse(localStorage.getItem("record"))
+
     app.quiz = app.stage[app.ans]
     app.started = Date.now()
   } else {
-    app.shuffled = [...Array(100)].map((x,i)=>i)
-    shuffle(app.shuffled)
-    localStorage.setItem("shuffled", JSON.stringify(app.shuffled))
+    app.mondaiset = [...Array(100)].map((x,i)=>i)
+    shuffle(app.mondaiset)
+    //app.record = [...Array(100)].map(x=>null)
+    localStorage.setItem("mondaiset", JSON.stringify(app.mondaiset))
 
     app.stage = [...Array(app.stage_maisu)]
     app.index = 0 //問題の位置
