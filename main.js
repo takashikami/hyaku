@@ -17,11 +17,11 @@ let app = new Vue({
         } else {
           app.judge = false
         }
-        let r = new Object()
+        let r = {id:0,elapsed:0,judge:false}
         r.id = app.quiz.id
         r.elapsed = Date.now() - app.started
         r.judge = (event.target.id == app.ans)
-        app.record.push(r)
+        app.record.results.push(r)
 
         app.showModal = true
       }
@@ -40,7 +40,7 @@ let app = new Vue({
     }
   },
   data: {
-    record: [],
+    record: {results:[]},
     mondaiset: [],
     started: 0, //dealでセットされる
     elapsed: 0,
@@ -101,7 +101,6 @@ const newgame = () => {
   } else {
     app.mondaiset = [...Array(100)].map((x,i)=>i)
     shuffle(app.mondaiset)
-    //app.record = [...Array(100)].map(x=>null)
     localStorage.setItem("mondaiset", JSON.stringify(app.mondaiset))
 
     app.stage = [...Array(app.stage_maisu)]

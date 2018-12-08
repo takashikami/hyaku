@@ -36,11 +36,11 @@
         {{quiz.yomisimo}}
       </div>
       <div slot="footer">
-        {{record[record.length-1].elapsed}}
+        {{record[record.results.length-1].elapsed}}
       </div>
     </modal>
     <div class="score">
-      問題：{{record.length + 1}} ｜ 正解：{{record.filter(r=>r.judge==true).length}}/{{record.length}}
+      問題：{{record.results.length + 1}} ｜ 正解：{{record.results.filter(r=>r.judge==true).length}}/{{record.results.length}}
     </div>
     <div class="kami">{{quiz.yomikami}}</div>
     <div v-for="(card,grid) in stage" class="carta" :id="grid" @click="toru">
