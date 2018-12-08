@@ -40,7 +40,7 @@ let app = new Vue({
     }
   },
   data: {
-    record: {results:[]},
+    record: {startdate:Date.now(), results:[]},
     mondaiset: [],
     started: 0, //dealでセットされる
     elapsed: 0,
@@ -52,7 +52,6 @@ let app = new Vue({
     index: 0,//カードの位置
     quiz: {},//問題カード
     ans: 0,  //正解のステージ位置
-    score: 0 //正解数
   },
 });
 
@@ -79,7 +78,6 @@ const deal = () => {
   app.started = Date.now()
 
   localStorage.setItem("index", JSON.stringify(app.index))
-  localStorage.setItem("score", JSON.stringify(app.score))
   localStorage.setItem("stage", JSON.stringify(app.stage))
   localStorage.setItem("ans", JSON.stringify(app.ans))
   localStorage.setItem("record", JSON.stringify(app.record))
@@ -91,10 +89,10 @@ const newgame = () => {
   app.mondaiset = JSON.parse(localStorage.getItem("mondaiset"))
   if (app.mondaiset) {
     app.index = JSON.parse(localStorage.getItem("index"))
-    app.score = JSON.parse(localStorage.getItem("score"))
     app.stage = JSON.parse(localStorage.getItem("stage"))
     app.ans = JSON.parse(localStorage.getItem("ans"))
     app.record = JSON.parse(localStorage.getItem("record"))
+    //app.index = app.record.results.length + app.stage_maisu
 
     app.quiz = app.stage[app.ans]
     app.started = Date.now()
@@ -105,7 +103,8 @@ const newgame = () => {
 
     app.stage = [...Array(app.stage_maisu)]
     app.index = 0 //問題の位置
-    app.score = 0 //正解数
+    //app.record.startdate = Date.now()
+    //app.record.results = []
     deal()
   }
 }
