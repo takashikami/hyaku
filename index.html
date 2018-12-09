@@ -11,18 +11,8 @@
   <script type="text/x-template" id="modal-template">
     <transition name="modal">
       <div class="modal-mask">
-        <div class="modal-wrapper">
-          <div class="modal-container" @click="$emit('close')">
-            <div class="modal-header">
-              <slot name="header"></slot>
-            </div>
-            <div class="modal-body">
-              <slot name="body"></slot>
-            </div>
-            <div class="modal-footer">
-              <slot name="footer"></slot>
-            </div>
-          </div>
+        <div class="modal-wrapper" @click="$emit('close')">
+          <slot name="container"></slot>
         </div>
       </div>
     </transition>
@@ -30,21 +20,33 @@
 
   <div id="app" v-cloak>
     <modal v-if="showModal" @close="closemodal">
-      <h3 slot="header">{{judge ? "正解" : "不正解"}}</h3>
-      <div slot="body">
+      <div slot="container" class="modal-container">
+        <h3>{{judge ? "正解" : "不正解"}}</h3>
         {{quiz.yomikami}}<br>
-        {{quiz.yomisimo}}
-      </div>
-      <div slot="footer">
-        {{record.results[record.results.length-1].elapsed}}
+        {{quiz.yomisimo}}<br><br>
+        {{record.results[record.results.length-1].elapsed/1000}}秒
       </div>
     </modal>
+
+    <modal v-if="showStart">
+      <div slot="container" class="start-container">
+        <h3>百人一首</h3>
+        <button @click="closestart">はじめから</button><br>
+        <button @click="closestart">つづきから</button><br>
+      </div>
+    </modal>
+
     <div class="score">
       問題：{{record.results.length + 1}} ｜ 正解：{{record.results.filter(r=>r.judge==true).length}}/{{record.results.length}}
     </div>
     <div class="kami">{{quiz.yomikami}}</div>
     <div v-for="(card,grid) in stage" class="carta" :id="grid" @click="toru">
       {{card.hirasimo}}
+    </div>
+
+    <div>
+      <button id="100" @click="toru">スキップ</button>
+      <button @click="showStart=true">メニュー</button>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

@@ -37,7 +37,11 @@ let app = new Vue({
         newgame()
       }
       deal()
-    }
+    },
+    closestart: () => {
+      app.showStart = false
+      app.started = Date.now()
+    },
   },
   data: {
     record: {
@@ -48,6 +52,7 @@ let app = new Vue({
     mondaiset: [],
     started: 0, //dealでセットされる
     elapsed: 0,
+    showStart: true,
     showModal: false,
     judge: false,
     stage: [],//ステージ
@@ -107,6 +112,7 @@ const newgame = () => {
     app.index = 0 //問題の位置
     deal()
   }
+  app.showStart = true
 }
 
 newgame()
