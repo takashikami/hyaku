@@ -31,8 +31,8 @@
     <modal v-if="showStart">
       <div slot="container" class="start-container">
         <h3>百人一首</h3>
-        <button @click="closestart">はじめから</button><br>
-        <button @click="closestart">つづきから</button><br>
+        <button id="reset" @click="closestart">はじめから</button><br>
+        <button id="start" @click="closestart">つづきから</button><br>
       </div>
     </modal>
 
@@ -40,13 +40,14 @@
       問題：{{record.results.length + 1}} ｜ 正解：{{record.results.filter(r=>r.judge==true).length}}/{{record.results.length}}
     </div>
     <div class="kami">{{quiz.yomikami}}</div>
-    <div v-for="(card,grid) in stage" class="carta" :id="grid" @click="toru">
-      {{card.hirasimo}}
-    </div>
-
     <div>
-      <button id="100" @click="toru">スキップ</button>
-      <button @click="showStart=true">メニュー</button>
+      <div v-for="(card,grid) in record.stage" class="carta" :id="grid" @click="toru">
+        {{card.hirasimo}}
+      </div>
+    </div>
+    <div>
+      <button style="width:100%" id="100" @click="toru">スキップ</button>
+      <br><br><button @click="showStart=true">メニュー</button>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

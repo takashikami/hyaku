@@ -11,7 +11,7 @@ let app = new Vue({
   methods: {
     toru: (event) => {
       if (event) {
-        if (event.target.id == app.ans) {
+        if (event.target.id == app.record.answer) {
           app.judge = true
           app.score++
         } else {
@@ -20,7 +20,7 @@ let app = new Vue({
         let r = {id:0,elapsed:0,judge:false}
         r.id = app.quiz.id
         r.elapsed = Date.now() - app.started
-        r.judge = (event.target.id == app.ans)
+        r.judge = (event.target.id == app.record.answer)
         app.record.results.push(r)
 
         app.showModal = true
@@ -28,38 +28,40 @@ let app = new Vue({
     },
     closemodal: () => {
       app.showModal = false
-      if (app.stage.length == 2) {
+      if (app.record.stage.length == 2) {
         newgame()
       }
-      if (app.index < 100) {
-        app.stage[app.ans] = null
+      if (app.record.index < 100) {
+        app.record.stage[app.record.answer] = null
       } else {
         newgame()
       }
       deal()
     },
-    closestart: () => {
+    closestart: (event) => {
+      if (event.target.id == "reset") {
+        localStorage.removeItem("record")
+      }
+      newgame()
       app.showStart = false
-      app.started = Date.now()
     },
   },
   data: {
     record: {
-      startdate: Date.now(),
+      startdate: null,
       results: [],
       stage_maisu: 8,//ステージに置けるカード枚数
+      mondaiset: [],
+      stage: [],//ステージ
+      index: 0,//カードの位置
+      answer: 0,  //正解のステージ位置
     },
-    mondaiset: [],
     started: 0, //dealでセットされる
-    elapsed: 0,
     showStart: true,
     showModal: false,
     judge: false,
-    stage: [],//ステージ
     cards: [],//シャッフル済みカード
-    index: 0,//カードの位置
     quiz: {},//問題カード
-    ans: 0,  //正解のステージ位置
   },
 });
 
@@ -72,47 +74,40 @@ const shuffle = array => {
     array[i] = array[r]
     array[r] = tmp
   }
+  return array
 }
 
 const deal = () => {
-  app.stage.forEach((v,i,a)=>{
+  app.record.stage.forEach((v,i,a)=>{
     if (!v) {
-      a[i] = app.cards[app.mondaiset[app.index]]
-      app.index++
+      a[i] = app.cards[app.record.mondaiset[app.record.index]]
+      app.record.index++
     }
   })
-  app.ans = rand(app.stage.length)
-  app.quiz = app.stage[app.ans]
+  app.record.answer = rand(app.record.stage.length)
+  app.quiz = app.record.stage[app.record.answer]
   app.started = Date.now()
 
-  localStorage.setItem("index", JSON.stringify(app.index))
-  localStorage.setItem("stage", JSON.stringify(app.stage))
-  localStorage.setItem("ans", JSON.stringify(app.ans))
   localStorage.setItem("record", JSON.stringify(app.record))
 }
 
 const newgame = () => {
-  app.cards = cards() //import from mondai.js
-
-  app.mondaiset = JSON.parse(localStorage.getItem("mondaiset"))
-  if (app.mondaiset) {
-    app.index = JSON.parse(localStorage.getItem("index"))
-    app.stage = JSON.parse(localStorage.getItem("stage"))
-    app.ans = JSON.parse(localStorage.getItem("ans"))
-    app.record = JSON.parse(localStorage.getItem("record"))
-
-    app.quiz = app.stage[app.ans]
+  var record = JSON.parse(localStorage.getItem("record"))
+  if (record) {
+    app.record = record
+    app.quiz = app.record.stage[app.record.answer]
     app.started = Date.now()
   } else {
-    app.mondaiset = [...Array(100)].map((x,i)=>i)
-    shuffle(app.mondaiset)
-    localStorage.setItem("mondaiset", JSON.stringify(app.mondaiset))
-
-    app.stage = [...Array(app.record.stage_maisu)]
-    app.index = 0 //問題の位置
+    app.record.mondaiset = shuffle([...Array(100)].map((x,i)=>i))
+    app.record.startdate = Date.now()
+    app.record.results = []
+    app.record.stage_maisu = 8,//ステージに置けるカード枚数
+    app.record.stage = [...Array(app.record.stage_maisu)]
+    app.record.index = 0 //問題の位置
     deal()
   }
-  app.showStart = true
 }
 
+app.cards = cards() //import from mondai.js
 newgame()
+app.showStart = true
