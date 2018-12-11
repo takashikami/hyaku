@@ -28,12 +28,10 @@ let app = new Vue({
     },
     closemodal: () => {
       app.showModal = false
-      if (app.record.stage.length == 2) {
-        newgame()
-      }
-      if (app.record.index < 100) {
+      if (app.record.index - app.record.stage_maisu < 9) {
         app.record.stage[app.record.answer] = null
       } else {
+        localStorage.removeItem("record")
         newgame()
       }
       deal()
@@ -80,7 +78,7 @@ const shuffle = array => {
 const deal = () => {
   app.record.stage.forEach((v,i,a)=>{
     if (!v) {
-      a[i] = app.cards[app.record.mondaiset[app.record.index]]
+      a[i] = app.cards[app.record.mondaiset[app.record.index].index]
       app.record.index++
     }
   })
@@ -98,7 +96,10 @@ const newgame = () => {
     app.quiz = app.record.stage[app.record.answer]
     app.started = Date.now()
   } else {
-    app.record.mondaiset = shuffle([...Array(100)].map((x,i)=>i))
+    var a = shuffle([...Array(100)].map((x,i)=>i))
+    var avalid = a.map(x=>{return {index:x, valid:true}})
+    var ainvalid = a.map(x=>{return {index:x, valid:false}})
+    app.record.mondaiset = avalid.concat(ainvalid)
     app.record.startdate = Date.now()
     app.record.results = []
     app.record.stage_maisu = 8,//ステージに置けるカード枚数
