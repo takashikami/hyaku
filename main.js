@@ -28,7 +28,7 @@ let app = new Vue({
     },
     closemodal: () => {
       app.showModal = false
-      if (app.record.index - app.record.stage_maisu < 9) {
+      if (app.record.index - app.record.stage_maisu < 99) {
         app.record.stage[app.record.answer] = null
       } else {
         localStorage.removeItem("record")
@@ -84,7 +84,8 @@ const deal = () => {
       app.record.index++
     }
   })
-  app.record.answer = rand(app.record.stage.length)
+  let validcards = app.record.stage.filter(mondai=>mondai.valid)
+  app.record.answer = validcards[rand(validcards.length)].grid
   app.quiz = app.record.stage[app.record.answer]
   app.started = Date.now()
 
