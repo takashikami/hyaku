@@ -17,9 +17,11 @@ let app = new Vue({
         } else {
           app.judge = false
         }
-        let r = {}
+        let otetsuki = app.record.stage[event.target.id].cardno
+        let r = Object.assign({}, app.quiz)
         r.elapsed = Date.now() - app.started
-        r.judge = (event.target.id == app.record.answer)
+        r.judge = app.judge
+        r.otetsuki = otetsuki
         app.record.results.push(r)
 
         app.showModal = true
