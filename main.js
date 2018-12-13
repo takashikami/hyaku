@@ -78,7 +78,9 @@ const shuffle = array => {
 const deal = () => {
   app.record.stage.forEach((v,i,a)=>{
     if (!v) {
-      a[i] = app.cards[app.record.mondaiset[app.record.index].index]
+      let card = app.record.mondaiset[app.record.index]
+      card.grid = i
+      a[i] = card
       app.record.index++
     }
   })
@@ -97,8 +99,8 @@ const newgame = () => {
     app.started = Date.now()
   } else {
     var a = shuffle([...Array(100)].map((x,i)=>i))
-    var avalid = a.map(x=>{return {index:x, valid:true}})
-    var ainvalid = a.map(x=>{return {index:x, valid:false}})
+    var avalid = a.map(x=>{return {cardno:x, valid:true}})
+    var ainvalid = a.map(x=>{return {cardno:x, valid:false}})
     app.record.mondaiset = avalid.concat(ainvalid)
     app.record.startdate = Date.now()
     app.record.results = []

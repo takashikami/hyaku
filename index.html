@@ -22,9 +22,9 @@
     <modal v-if="showModal" @close="closemodal">
       <div slot="container" class="modal-container">
         <h3>{{judge ? "正解" : "不正解"}}</h3>
-        {{quiz.yomikami}}<br>
-        {{quiz.yomisimo}}<br><br>
-        {{quiz.hito}}<br><br>
+        {{cards[quiz.cardno].yomikami}}<br>
+        {{cards[quiz.cardno].yomisimo}}<br><br>
+        {{cards[quiz.cardno].hito}}<br><br>
         {{record.results[record.results.length-1].elapsed/1000}}秒
       </div>
     </modal>
@@ -40,10 +40,10 @@
     <div class="score">
       問題：{{record.index - record.stage_maisu + 1}} ｜ 正解：{{record.results.filter(r=>r.judge==true).length}}/{{record.results.length}}
     </div>
-    <div class="kami">{{quiz.yomikami}}</div>
+    <div class="kami">{{cards[quiz.cardno].yomikami}}</div>
     <div>
       <div v-for="(card,grid) in record.stage" class="carta" :id="grid" @click="toru">
-        {{card.hirasimo}}
+        {{cards[card.cardno].hirasimo}}
       </div>
     </div>
     <div>
