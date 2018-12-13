@@ -17,8 +17,7 @@ let app = new Vue({
         } else {
           app.judge = false
         }
-        let r = {id:0,elapsed:0,judge:false}
-        r.id = app.quiz.id
+        let r = {}
         r.elapsed = Date.now() - app.started
         r.judge = (event.target.id == app.record.answer)
         app.record.results.push(r)
@@ -28,12 +27,11 @@ let app = new Vue({
     },
     closemodal: () => {
       app.showModal = false
-      if (app.record.index - app.record.stage_maisu < 3) {
+      if (app.record.index - app.record.stage_maisu < app.record.mondaisu-1) {
         app.record.stage[app.record.answer] = null
         deal()
       } else {
-        app.record.mondaiset = null
-        app.history.push(app.record)
+        app.history.unshift(Object.assign({},app.record))
         localStorage.setItem("history", JSON.stringify(app.history))
         localStorage.removeItem("record")
         newgame()
@@ -42,6 +40,10 @@ let app = new Vue({
     },
     closestart: (event) => {
       if (event.target.id == "reset") {
+        if (app.record.results.length > 0) {
+          app.history.unshift(Object.assign({},app.record))
+          localStorage.setItem("history", JSON.stringify(app.history))
+        }
         localStorage.removeItem("record")
       }
       newgame()
@@ -52,6 +54,7 @@ let app = new Vue({
     record: {
       startdate: null,
       results: [],
+      mondaisu: 4,
       stage_maisu: 8,//ステージに置けるカード枚数
       mondaiset: [],
       stage: [],//ステージ
