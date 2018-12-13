@@ -56,7 +56,7 @@ let app = new Vue({
     record: {
       startdate: null,
       results: [],
-      mondaisu: 4,
+      mondaisu: 100,
       stage_maisu: 8,//ステージに置けるカード枚数
       mondaiset: [],
       stage: [],//ステージ
