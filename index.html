@@ -40,7 +40,7 @@
     <div class="score">
       問題：{{record.index - record.stage_maisu + 1}} ｜ 正解：{{record.results.filter(r=>r.judge==true).length}}/{{record.results.length}}
     </div>
-    <div class="kami">{{cards[quiz.cardno].yomikami}}</div>
+    <div class="kami">{{cards[quiz.cardno]?cards[quiz.cardno].yomikami:""}}</div>
     <div>
       <div v-for="(card,grid) in record.stage" class="carta" :id="grid" @click="toru">
         {{cards[card.cardno].hirasimo}}
