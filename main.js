@@ -28,13 +28,17 @@ let app = new Vue({
     },
     closemodal: () => {
       app.showModal = false
-      if (app.record.index - app.record.stage_maisu < 99) {
+      if (app.record.index - app.record.stage_maisu < 3) {
         app.record.stage[app.record.answer] = null
+        deal()
       } else {
+        app.record.mondaiset = null
+        app.history.push(app.record)
+        localStorage.setItem("history", JSON.stringify(app.history))
         localStorage.removeItem("record")
         newgame()
+        app.showStart = true
       }
-      deal()
     },
     closestart: (event) => {
       if (event.target.id == "reset") {
@@ -54,6 +58,7 @@ let app = new Vue({
       index: 0,//カードの位置
       answer: 0,  //正解のステージ位置
     },
+    history: [],
     started: 0, //dealでセットされる
     showStart: true,
     showModal: false,
@@ -113,5 +118,6 @@ const newgame = () => {
 }
 
 app.cards = cards() //import from mondai.js
+app.history = JSON.parse(localStorage.getItem("history")) || []
 newgame()
 app.showStart = true
