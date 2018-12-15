@@ -2,6 +2,15 @@
   hyakunin isshu anki app
 */
 
+// JSON.parseのriviver
+const inf = (k,v) => {
+  if (k == "elapsed" && v == null) {
+    return Infinity
+  } else {
+    return v
+  }
+}
+
 Vue.component('modal', {
   template: '#modal-template'
 })
@@ -17,11 +26,10 @@ let app = new Vue({
         } else {
           app.judge = false
         }
-        let otetsuki = app.record.stage[event.target.id].cardno
         let r = Object.assign({}, app.quiz)
-        r.elapsed = Date.now() - app.started
         r.judge = app.judge
-        r.otetsuki = otetsuki
+        r.elapsed = r.judge ? Date.now() - app.started : Infinity
+        r.otetsuki = event.target.id < 100 ? app.record.stage[event.target.id].cardno : -1
         app.record.results.push(r)
 
         app.showModal = true
@@ -103,7 +111,7 @@ const deal = () => {
 }
 
 const newgame = () => {
-  var record = JSON.parse(localStorage.getItem("record"))
+  var record = JSON.parse(localStorage.getItem("record"), inf)
   if (record) {
     app.record = record
     app.quiz = app.record.stage[app.record.answer]
@@ -123,6 +131,6 @@ const newgame = () => {
 }
 
 app.cards = cards() //import from mondai.js
-app.history = JSON.parse(localStorage.getItem("history")) || []
+app.history = JSON.parse(localStorage.getItem("history"), inf) || []
 newgame()
 app.showStart = true
