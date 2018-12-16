@@ -11,10 +11,6 @@ const inf = (k,v) => {
   }
 }
 
-Vue.component('modal', {
-  template: '#modal-template'
-})
-
 let app = new Vue({
   el: "#app",
   methods: {
