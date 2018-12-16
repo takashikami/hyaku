@@ -96,6 +96,14 @@ body {
 }
 
 /* table ======================================== */
+thead, tbody {
+  display: block;
+}
+tbody {
+  overflow-y: scroll;
+  height: 150px;
+}
+
 table {
   border: 2px solid #42b983;
   border-radius: 3px;
@@ -117,7 +125,7 @@ td {
 }
 
 th, td {
-  min-width: 120px;
+  min-width: 80px;
   padding: 10px 20px;
 }
 
