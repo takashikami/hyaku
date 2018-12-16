@@ -39,8 +39,9 @@
             <h3>{{judge ? "正解" : "不正解"}}</h3>
             {{cards[quiz.cardno].yomikami}}<br>
             {{cards[quiz.cardno].yomisimo}}<br><br>
+            {{quiz.cardno+1}}&nbsp;
             {{cards[quiz.cardno].hito}}<br><br>
-            {{record.results[record.results.length-1].elapsed/1000}}秒
+            {{record.results[record.results.length-1].elapsed}}秒
           </div>
         </div>
       </div>
@@ -52,19 +53,14 @@
           <div class="start-container">
             <h3>百人一首</h3>
             <button id="reset" @click="closestart">はじめから</button><br>
+            <br>
             <button id="start" @click="closestart">つづきから</button><br>
-
-            <div id="demo">
-              <form id="search">
-                Search <input name="query" v-model="searchQuery">
-              </form>
-              <demo-grid
-                :data="record.results"
-                :columns="gridColumns"
-                :filter-key="searchQuery">
-              </demo-grid>
-            </div>
-  
+            <br>
+            <demo-grid
+              :data="record.results"
+              :columns="gridColumns"
+              :filter-key="searchQuery">
+            </demo-grid>
           </div>
         </div>
       </div>

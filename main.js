@@ -77,11 +77,11 @@ let app = new Vue({
           app.judge = false
         }
         let r = Object.assign({}, app.quiz)
+        r.cardno++
         r.judge = app.judge
-        r.elapsed = r.judge ? Date.now() - app.started : Infinity
+        r.elapsed = r.judge ? (Date.now() - app.started)/1000 : Infinity
         r.otetsuki = event.target.id < 100 ? app.record.stage[event.target.id].cardno : -1
-        app.record.results.push(r)
-        app.gridData.push(r)
+        app.record.results.unshift(r)
         app.showModal = true
       }
     },
@@ -180,7 +180,7 @@ const newgame = () => {
     app.record.stage_maisu = 8,//ステージに置けるカード枚数
     app.record.stage = [...Array(app.record.stage_maisu)]
     app.record.index = 0 //問題の位置
-    app.gridData = []
+    app.gridData = app.record.results
     deal()
   }
 }
