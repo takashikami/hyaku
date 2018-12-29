@@ -11,6 +11,17 @@ const inf = (k,v) => {
   }
 }
 
+const datestr = (date) => {
+  return [
+    ('0000' + date.getFullYear()).slice(-2),
+    '/' + ('00' + date.getMonth()).slice(-2) ,
+    '/' + ('00' + date.getDay()).slice(-2),
+    ' ' + ('00' + date.getHours()).slice(-2),
+    ':' + ('00' + date.getMinutes()).slice(-2),
+    ':' + ('00' + date.getSeconds()).slice(-2)
+  ].join('')
+}
+
 // register the grid component
 Vue.component('demo-grid', {
   template: '#grid-template',
@@ -113,12 +124,14 @@ let app = new Vue({
   data: {
     record: {
       startdate: null,
+      startdatestr: '',
       results: [],
       mondaisu: 100,
       stage_maisu: 8,//ステージに置けるカード枚数
       mondaiset: [],
       stage: [],//ステージ
       index: 0,//カードの位置
+      su: 0, //出題数
       answer: 0,  //正解のステージ位置
     },
     history: [],
@@ -129,9 +142,8 @@ let app = new Vue({
     cards: [],//シャッフル済みカード
     quiz: {},//問題カード
 
-    searchQuery: '',
-    gridColumns: ['cardno', 'elapsed'],
-    gridData: [],
+    recordColumns: ['cardno', 'elapsed'],
+    historyColumns: ['startdatestr', 'su'],
   },
 });
 
@@ -154,6 +166,7 @@ const deal = () => {
       card.grid = i
       a[i] = card
       app.record.index++
+      app.record.su = app.record.index - app.record.stage_maisu
     }
   })
   let validcards = app.record.stage.filter(mondai=>mondai.valid)
@@ -175,11 +188,14 @@ const newgame = () => {
     var avalid = a.map(x=>{return {cardno:x, valid:true}})
     var ainvalid = a.map(x=>{return {cardno:x, valid:false}})
     app.record.mondaiset = avalid.concat(ainvalid)
-    app.record.startdate = Date.now()
+    var now = new Date()
+    app.record.startdate = now.getTime()
+    app.record.startdatestr = datestr(now)
     app.record.results = []
     app.record.stage_maisu = 8,//ステージに置けるカード枚数
     app.record.stage = [...Array(app.record.stage_maisu)]
     app.record.index = 0 //問題の位置
+    app.record.su = 0 //出題数
     app.gridData = app.record.results
     deal()
   }

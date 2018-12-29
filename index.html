@@ -58,8 +58,11 @@
             <br>
             <demo-grid
               :data="record.results"
-              :columns="gridColumns"
-              :filter-key="searchQuery">
+              :columns="recordColumns">
+            </demo-grid>
+            <demo-grid
+              :data="history"
+              :columns="historyColumns">
             </demo-grid>
           </div>
         </div>
