@@ -88,6 +88,7 @@ let app = new Vue({
           app.judge = false
         }
         let r = Object.assign({}, app.quiz)
+        r.yomi0 = app.cards[r.cardno].yomi[0]
         r.cardno++
         r.judge = app.judge
         r.elapsed = r.judge ? (Date.now() - app.started)/1000 : Infinity
@@ -142,7 +143,7 @@ let app = new Vue({
     cards: [],//シャッフル済みカード
     quiz: {},//問題カード
 
-    recordColumns: ['cardno', 'elapsed'],
+    resultsColumns: ['cardno', 'yomi0', 'elapsed'],
     historyColumns: ['startdatestr', 'su'],
   },
 });
